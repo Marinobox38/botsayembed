@@ -4,6 +4,21 @@ from discord import app_commands
 import os
 from flask import Flask
 import threading
+from flask import Flask
+import threading
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run():
+    app.run(host="0.0.0.0", port=8080)
+
+def keep_alive():
+    t = threading.Thread(target=run)
+    t.start()
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -35,4 +50,6 @@ async def on_ready():
     await tree.sync()
     print(f"✅ Bot say/embed prêt : {bot.user}")
 
+keep_alive()
+bot.run(TOKEN)
 bot.run(os.getenv("DISCORD_TOKEN"))
